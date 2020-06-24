@@ -131,7 +131,7 @@ class AvroFaust:
         self.final_schema = _schema
 
     #First functions. Maintains all states
-    def avro_equivalent(self, obj=None, schema_domain='com.anz.oacb.avro'):
+    def avro_equivalent(self, obj=None, schema_domain='com.avro'):
         original_record = copy.deepcopy(self)
         self.schema_domain = schema_domain
         self.final_schema_list = []
