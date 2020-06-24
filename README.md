@@ -41,9 +41,9 @@ typingListNull - For homogeneous lists of single type of objects. List can be em
 ## Examples
 
 ```
-class FileAttachment(faust.Record, AvroFaust):
-    fileName: str
-    fileLocation: strNull
+class Attachment(faust.Record, AvroFaust):
+    Name: str
+    Location: strNull
     
 class Employee(faust.Record, AvroFaust):
     name: str
@@ -60,20 +60,20 @@ class EmailRecord(faust.Record, AvroFaust):
     ccAddress: typingListNull.List(Employee)
     subject: strNull
     body: strNull
-    fileAttachments: typingListNull.List(FileAttachment)
+    Attachments: typingListNull.List(Attachment)
 
 
-file1 = FileAttachment(fileName="foo.bar", fileLocation="fooBar/fooBar/fooBar/fooBar")
-file2 = FileAttachment(fileName="foobar.foo", fileLocation=None)
+file1 = Attachment(Name="foo.bar", Location="fooBar/fooBar/fooBar/fooBar")
+file2 = Attachment(Name="foobar.foo", Location=None)
 
 employee1 = Employee(name='Foo', email="foo.bar@foobar.com", designation=None, salary=150320.2, numberOfReportees=3, managerName="Bar Foo")
 employee2 = Employee(name='FooBar', email="foobar.foo@foobar.com", designation="SM", salary=None, numberOfReportees=1, managerName=None)
 employee3 = Employee(name='Bar',email="bar.foo@foobar.com", designation=None, salary=None, numberOfReportees=None, managerName=None)
 employee4 = Employee(name='BarFoo', email="barfoo.foo@foobar.com", designation=None, salary=1254002.0, numberOfReportees=None, managerName='Foo')
 
-email1 = EmailRecord(received=datetime.datetime.now(), fromAddress=employee1, toAddress=[employee3, employee4], ccAddress=[employee2], subject='Foo', body='Bar', fileAttachments=[])
-email2 = EmailRecord(received=datetime.datetime.now(), fromAddress=employee3, toAddress=[employee1], ccAddress=[], subject='Foo', body='Bar', fileAttachments=[file1])
-email3 = EmailRecord(received=datetime.datetime.now(), fromAddress=employee4, toAddress=[employee2, employee1, employee3], ccAddress=[employee2, employee1, employee3], subject='Foo', body='Bar', fileAttachments=[file1, file2])
+email1 = EmailRecord(received=datetime.datetime.now(), fromAddress=employee1, toAddress=[employee3, employee4], ccAddress=[employee2], subject='Foo', body='Bar', Attachments=[])
+email2 = EmailRecord(received=datetime.datetime.now(), fromAddress=employee3, toAddress=[employee1], ccAddress=[], subject='Foo', body='Bar', Attachments=[file1])
+email3 = EmailRecord(received=datetime.datetime.now(), fromAddress=employee4, toAddress=[employee2, employee1, employee3], ccAddress=[employee2, employee1, employee3], subject='Foo', body='Bar', Attachments=[file1, file2])
 ```
 
 Now we can simply call avro_equivalent() method on a faust record instance wich returns the avro schema and also the same faust record. Please note that original record gets changed after calling this method so it is important to replace the original faust ecord with the returnd faust record.
@@ -82,6 +82,11 @@ Now we can simply call avro_equivalent() method on a faust record instance wich 
 avro_schema1, email1 = email1.avro_equivalent()
 avro_schema2, email2 = email2.avro_equivalent()
 ```
+Generatedavro schema
+```
+{'name': 'EmailRecord', 'type': 'record', 'namespace': 'com.avro', 'fields': [{'name': 'received', 'type': 'string'}, {'name': 'fromAddress', 'type': {'name': 'EmployeeData', 'type': 'record', 'namespace': 'com.avro', 'fields': [{'name': 'name', 'type': 'string'}, {'name': 'email', 'type': 'string'}, {'name': 'designation', 'type': ['string', 'null']}, {'name': 'salary', 'type': ['null', 'double']}, {'name': 'numberOfReportees', 'type': ['string', 'null']}, {'name': 'managerName', 'type': ['string', 'null']}]}}, {'name': 'toAddress', 'type': ['null', {'type': 'array', 'items': {'name': 'EmployeeData', 'type': 'record', 'namespace': 'com.avro', 'fields': [{'name': 'name', 'type': 'string'}, {'name': 'email', 'type': 'string'}, {'name': 'designation', 'type': ['string', 'null']}, {'name': 'salary', 'type': ['null', 'double']}, {'name': 'numberOfReportees', 'type': ['string', 'null']}, {'name': 'managerName', 'type': ['string', 'null']}]}}]}, {'name': 'ccAddress', 'type': ['null', {'type': 'array', 'items': {'name': 'EmployeeData', 'type': 'record', 'namespace': 'com.avro', 'fields': [{'name': 'name', 'type': 'string'}, {'name': 'email', 'type': 'string'}, {'name': 'designation', 'type': ['string', 'null']}, {'name': 'salary', 'type': ['null', 'double']}, {'name': 'numberOfReportees', 'type': ['string', 'null']}, {'name': 'managerName', 'type': ['string', 'null']}]}}]}, {'name': 'subject', 'type': ['string', 'null']}, {'name': 'body', 'type': ['string', 'null']}, {'name': 'Attachments', 'type': ['null', {'type': 'array', 'items': {'name': 'AttachmentData', 'type': 'record', 'namespace': 'com.avro', 'fields': [{'name': 'Name', 'type': 'string'}, {'name': 'Location', 'type': ['string', 'null']}]}}]}]}
+```
+
 Irrespective of the values provided into the record instance the avro schema should be same so -
 ```
 avro_schema1 == avro_schema2
