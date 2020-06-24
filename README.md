@@ -6,6 +6,9 @@ The repo also contains utility to convert faust record to avro json and byte mes
 ## Requirements
 - python==3.6
 - faust==1.10.4
+- avro-json-serializer==1.0.1
+- avro-python3==1.8.2
+- fastavro==0.23.4
 - typing-extensions==3.7.4.2
 - datetime
 
