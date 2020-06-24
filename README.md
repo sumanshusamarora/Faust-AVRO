@@ -15,15 +15,15 @@ The repo also contains utility to convert faust record to avro json and byte mes
 ## Data Types
 str - For string, should not be None
 
-strNull - For string, can be None (will be represnted as "null" in avro schema)
+strNull - For string, can be None (will be represented as ["null", "str"] in avro schema)
 
 int - For integeres, should not be None
 
-intNull - For Int, can be None (will be represnted as "null" in avro schema)
+intNull - For Int, can be None (will be represented as ["null", "int"] in avro schema)
 
 float - For float values, should not be None
 
-intNull - For float, can be None (will be represnted as "null" in avro schema)
+floatNull - For float, can be None (will be represented as ["null", "double"] in avro schema)
 
 datetime.datetime - For datetime values, should not be None (will be represented as string in avro schema)
 
