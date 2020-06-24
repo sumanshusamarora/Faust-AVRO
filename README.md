@@ -1,6 +1,8 @@
 # Faust-AVRO
 The repo consists code to automatically generate avro schema from Faust records. On top of it, some new derived classes of basic data types have been created to utilize null functonality of avro schema.
 
+The repo also contains utility to convert faust record to avro json and byte message and vice versa.
+
 ## Requirements
 - python==3.6
 - faust==1.10.4
