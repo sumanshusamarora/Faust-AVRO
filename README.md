@@ -22,6 +22,8 @@ typing.List - For homogeneous lists of single type of objects. List should not b
 typingListNull - For homogeneous lists of single type of objects. List can be empty
 
 ## Examples
+
+```
 class FileAttachment(faust.Record, AvroFaust):
     fileName: str
     fileLocation: strNull
@@ -55,14 +57,19 @@ employee4 = Employee(name='BarFoo', email="barfoo.foo@foobar.com", designation=N
 email1 = EmailRecord(received=datetime.datetime.now(), fromAddress=employee1, toAddress=[employee3, employee4], ccAddress=[employee2], subject='Foo', body='Bar', fileAttachments=[])
 email2 = EmailRecord(received=datetime.datetime.now(), fromAddress=employee3, toAddress=[employee1], ccAddress=[], subject='Foo', body='Bar', fileAttachments=[file1])
 email3 = EmailRecord(received=datetime.datetime.now(), fromAddress=employee4, toAddress=[employee2, employee1, employee3], ccAddress=[employee2, employee1, employee3], subject='Foo', body='Bar', fileAttachments=[file1, file2])
+```
 
 Now we can simple call avro_equivalent() method on a faust record instance wich returns the avro schema and also the same faust record. Please note that original record gets changed after calling this method so it is important to replace the original faust ecord with the returnd faust record.
 
+```
 avro_schema1, email1 = email1.avro_equivalent()
 avro_schema2, email2 = email2.avro_equivalent()
-
+```
 Irrespective of the values provided into the record instance the avro schema should be same so -
-avro_schema1 == avro_schema2 returns True
+```
+avro_schema1 == avro_schema2
+True
+```
 
 
     
