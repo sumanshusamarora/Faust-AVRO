@@ -73,7 +73,17 @@ avro_schema1 == avro_schema2
 True
 ```
 
+To use the same schema and then generate byte or json avro message, below code can be refernced
+```
+avro_schema, email = email1.avro_equivalent()
+faust2avro = faustToAvro(base_object=email, avro_schema=avro_schema)
+result_dict = faust2avro.iterate()
+bytes_serialized = faust2avro.serialize_to_bytes(result_dict)
+json_serialized = faust2avro.serialize_to_json(result_dict)
+```
 
+## Issues
+This is just a basic implementation that has been done to solve some problems i was facing during my project. I do not plan to improve this further but if you find any issues, please free to raise issues on this guthub repo and i will try to fix them.
     
  
 
