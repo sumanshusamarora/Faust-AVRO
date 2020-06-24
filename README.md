@@ -59,7 +59,7 @@ email2 = EmailRecord(received=datetime.datetime.now(), fromAddress=employee3, to
 email3 = EmailRecord(received=datetime.datetime.now(), fromAddress=employee4, toAddress=[employee2, employee1, employee3], ccAddress=[employee2, employee1, employee3], subject='Foo', body='Bar', fileAttachments=[file1, file2])
 ```
 
-Now we can simple call avro_equivalent() method on a faust record instance wich returns the avro schema and also the same faust record. Please note that original record gets changed after calling this method so it is important to replace the original faust ecord with the returnd faust record.
+Now we can simply call avro_equivalent() method on a faust record instance wich returns the avro schema and also the same faust record. Please note that original record gets changed after calling this method so it is important to replace the original faust ecord with the returnd faust record.
 
 ```
 avro_schema1, email1 = email1.avro_equivalent()
