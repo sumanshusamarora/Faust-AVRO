@@ -81,6 +81,7 @@ result_dict = faust2avro.iterate()
 bytes_serialized = faust2avro.serialize_to_bytes(result_dict)
 json_serialized = faust2avro.serialize_to_json(result_dict)
 ```
+For other details on how to use, please look at the examples.py file.
 
 ## Issues
 This is just a basic implementation that has been done to solve some problems i was facing during my project. I do not plan to improve this further but if you find any issues, please free to raise issues on this guthub repo and i will try to fix them.
