@@ -50,3 +50,14 @@ faust2avro = faustToAvro(base_object=email, avro_schema=avro_schema)
 result_dict = faust2avro.iterate()
 bytes_serialized = faust2avro.serialize_to_bytes(result_dict)
 json_serialized = faust2avro.serialize_to_json(result_dict)
+
+
+#To read a avro message and convert to Faust record
+with open(f'{PATH TO SCHEMA DIRECTORY}/email.avsc', 'rb') as schema_file:
+    email_schema =  schema_file.read()
+    
+@app.agent(subscribe, sink=[publish])
+async def fetch(records):
+    async for record in records:
+        avro2faust = faustToAvro(base_object=EmailRecord, avro_schema=email_schema) #EmailRecord is simply the name of the Faust record you expect the avro message to convert to 
+        record = avro2faust.byte_to_faust(record=record)
