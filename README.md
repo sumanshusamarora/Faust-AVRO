@@ -24,7 +24,7 @@ Ideal way of creating avro schema ***BUT java could not read the message using t
 ]
 ```
 
-Hence, we created the schema like this and it works as expected  - 
+Hence, we created the schema the non-ideal way but it is just a different representation of same schema and it works as expected  - 
 ```
 {
 "namespace": "com.avro",
