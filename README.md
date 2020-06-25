@@ -3,7 +3,7 @@ The repo consists code to automatically generate avro schema from Faust records.
 
 The avro schema generated through this implementation is tried and tested on Java-Python integration and we realized that having multiple schemas in a list in case of nested avro schema and adding only reference to child schema in the parent schema does not work when message is read at Java end. To explain further assume - 
 
-Ideal way of creating avro schema  <font color=red> BUT java could not read the message using this schema </font> -
+Ideal way of creating avro schema  <div class="text-purple"> BUT java could not read the message using this schema </div> -
 ```
 [
 schemaA = {"namespace": "com.avro",
