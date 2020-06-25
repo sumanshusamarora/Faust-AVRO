@@ -32,13 +32,13 @@ Hence, we created the schema the non-ideal way but it is just a different repres
 "name": "B",
 "fields": [
   {"name": "id", "type":  "string" }
-  {"record": {  "namespace": "com.avro",
-                "type": "record",
-                "name": "B",
-                "fields": [
+  {"record": {"namespace": "com.avro",
+              "type": "record",
+              "name": "A",
+              "fields": [
                           {"name": "id", "type":  "string" }
-                          ]
-             }
+                        ]
+           }
   }
   ]
  }
