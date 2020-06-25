@@ -1,5 +1,5 @@
 # Faust-AVRO
-The repo consists code to automatically generate avro schema from Faust records. On top of it, some new derived classes of basic data types have been created to utilize null functonality of avro schema.
+The repo consists code to automatically generate avro schema from Faust records. On top of it, some new derived classes of basic data types have been created to utilize null functionality of avro schema.
 
 The repo also contains utility to convert faust record to avro json and byte message and vice versa.
 
@@ -76,18 +76,18 @@ email2 = EmailRecord(received=datetime.datetime.now(), fromAddress=employee3, to
 email3 = EmailRecord(received=datetime.datetime.now(), fromAddress=employee4, toAddress=[employee2, employee1, employee3], ccAddress=[employee2, employee1, employee3], subject='Foo', body='Bar', Attachments=[file1, file2])
 ```
 
-Now we can simply call avro_equivalent() method on a faust record instance wich returns the avro schema and also the same faust record. Please note that original record gets changed after calling this method so it is important to replace the original faust ecord with the returnd faust record.
+Now we can simply call avro_equivalent() method on a faust record instance wich returns the avro schema and also the same faust record. Please note that original record gets changed after calling this method so it is important to replace the original faust record with the returned faust record.
 
 ```
 avro_schema1, email1 = email1.avro_equivalent()
 avro_schema2, email2 = email2.avro_equivalent()
 ```
-Generatedavro schema
+Generated avro schema -
 ```
 {'name': 'EmailRecord', 'type': 'record', 'namespace': 'com.avro', 'fields': [{'name': 'received', 'type': 'string'}, {'name': 'fromAddress', 'type': {'name': 'EmployeeData', 'type': 'record', 'namespace': 'com.avro', 'fields': [{'name': 'name', 'type': 'string'}, {'name': 'email', 'type': 'string'}, {'name': 'designation', 'type': ['string', 'null']}, {'name': 'salary', 'type': ['null', 'double']}, {'name': 'numberOfReportees', 'type': ['string', 'null']}, {'name': 'managerName', 'type': ['string', 'null']}]}}, {'name': 'toAddress', 'type': ['null', {'type': 'array', 'items': {'name': 'EmployeeData', 'type': 'record', 'namespace': 'com.avro', 'fields': [{'name': 'name', 'type': 'string'}, {'name': 'email', 'type': 'string'}, {'name': 'designation', 'type': ['string', 'null']}, {'name': 'salary', 'type': ['null', 'double']}, {'name': 'numberOfReportees', 'type': ['string', 'null']}, {'name': 'managerName', 'type': ['string', 'null']}]}}]}, {'name': 'ccAddress', 'type': ['null', {'type': 'array', 'items': {'name': 'EmployeeData', 'type': 'record', 'namespace': 'com.avro', 'fields': [{'name': 'name', 'type': 'string'}, {'name': 'email', 'type': 'string'}, {'name': 'designation', 'type': ['string', 'null']}, {'name': 'salary', 'type': ['null', 'double']}, {'name': 'numberOfReportees', 'type': ['string', 'null']}, {'name': 'managerName', 'type': ['string', 'null']}]}}]}, {'name': 'subject', 'type': ['string', 'null']}, {'name': 'body', 'type': ['string', 'null']}, {'name': 'Attachments', 'type': ['null', {'type': 'array', 'items': {'name': 'AttachmentData', 'type': 'record', 'namespace': 'com.avro', 'fields': [{'name': 'Name', 'type': 'string'}, {'name': 'Location', 'type': ['string', 'null']}]}}]}]}
 ```
 
-Irrespective of the values provided into the record instance the avro schema should be same so -
+Regardless of the values provided into the record instance the avro schema should be same so -
 ```
 avro_schema1 == avro_schema2
 True
@@ -101,11 +101,25 @@ result_dict = faust2avro.iterate()
 bytes_serialized = faust2avro.serialize_to_bytes(result_dict)
 json_serialized = faust2avro.serialize_to_json(result_dict)
 ```
+
+To read a avro byte message and convert to faust record, the following code can be used provided you already have the schema shared by sender which ideally the sender should. If schema is not available then the above code can be used to generate one but please ensure the Faust record has same format as the sender application - 
+```
+#Assuming the schema has been shared by the sender
+with open(f'{PATH TO SCHEMA DIRECTORY}/email.avsc', 'rb') as schema_file:
+    email_schema =  schema_file.read()
+
+@app.agent(subscribe, sink=[publish])
+async def fetch(records):
+    async for record in records:
+        avro2faust = faustToAvro(base_object=EmailRecord, avro_schema=email_schema)
+        faust_record = avro2faust.byte_to_faust(record=record)
+```
+
+
 For other details on how to use, please look at the examples.py file.
 
 ## Issues
-This is just a basic implementation that has been done to solve some problems i was facing during my project. I do not plan to improve this further but if you find any issues, please free to raise issues on this guthub repo and i will try to fix them.
-    
- 
+This is just a basic implementation that has been done to solve the conversion problems i was facing during my project where we needed to integrate with a java application using kafka messaging. I do not plan to improve this further but if you find any issues, please free to raise issues on this guthub repo and i will try to fix them.
+
 
 
