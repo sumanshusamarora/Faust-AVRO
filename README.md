@@ -1,5 +1,49 @@
 # Faust-AVRO
-The repo consists code to automatically generate avro schema from Faust records. On top of it, some new derived classes of basic data types have been created to utilize null functionality of avro schema.
+The repo consists code to automatically generate avro schema from Faust records. On top of it, some new derived classes of basic data types have been created to utilize null functionality of avro schema. 
+
+The avro schema generated through this implementation is tried and tested on Java-Python integration and we realized that having multiple schemas in a list in case of nested avro schema and providing reference to child schema does not work when message is read at Java end. To explain further assume - 
+
+```
+Ideal way of creating avro schema which Java could not read - 
+
+[
+schemaA = {"namespace": "com.avro",
+          "type": "record",
+          "name": "A",
+          "fields": [
+            {"name": "id", "type":  "string" }
+            ]
+           }
+schemaB = {"namespace": "com.avro",
+          "type": "record",
+          "name": "B",
+          "fields": [
+            {"name": "id", "type":  "string" }
+            {"record": com.avro.A}
+            ]
+           }
+]
+
+Hence, we created the schema like this and it works as expected  - 
+
+schemaB = {"namespace": "com.avro",
+          "type": "record",
+          "name": "B",
+          "fields": [
+            {"name": "id", "type":  "string" }
+            {"record": {  "namespace": "com.avro",
+                          "type": "record",
+                          "name": "B",
+                          "fields": [
+                                    {"name": "id", "type":  "string" }
+                                    {"record": com.avro.A}
+                                    ]
+                                    }
+                      }
+            ]
+           }
+```
+
 
 The repo also contains utility to convert faust record to avro json and byte message and vice versa.
 
