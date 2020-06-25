@@ -59,5 +59,5 @@ with open(f'{PATH TO SCHEMA DIRECTORY}/email.avsc', 'rb') as schema_file:
 @app.agent(subscribe, sink=[publish])
 async def fetch(records):
     async for record in records:
-        avro2faust = faustToAvro(base_object=faust.EmailRecord, avro_schema=email_schema) #EmailRecord is simply the name of the Faust record you expect the avro message to convert to 
+        avro2faust = faustToAvro(base_object=EmailRecord, avro_schema=email_schema) #EmailRecord is simply the name of the Faust record you expect the avro message to convert to 
         record = avro2faust.byte_to_faust(record=record)
