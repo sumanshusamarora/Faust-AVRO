@@ -6,14 +6,14 @@ The avro schema generated through this implementation is tried and tested on Jav
 Ideal way of creating avro schema ***BUT java could not read the message using this schema -***
 ```
 [
-schemaA = {"namespace": "com.avro",
+{"namespace": "com.avro",
           "type": "record",
           "name": "A",
           "fields": [
             {"name": "id", "type":  "string" }
             ]
-           }
-schemaB = {"namespace": "com.avro",
+           },
+{"namespace": "com.avro",
           "type": "record",
           "name": "B",
           "fields": [
@@ -26,22 +26,23 @@ schemaB = {"namespace": "com.avro",
 
 Hence, we created the schema like this and it works as expected  - 
 ```
-schemaB = {"namespace": "com.avro",
-          "type": "record",
-          "name": "B",
-          "fields": [
-            {"name": "id", "type":  "string" }
-            {"record": {  "namespace": "com.avro",
-                          "type": "record",
-                          "name": "B",
-                          "fields": [
-                                    {"name": "id", "type":  "string" }
-                                    {"record": com.avro.A}
-                                    ]
-                                    }
-                      }
-            ]
-           }
+{
+"namespace": "com.avro",
+"type": "record",
+"name": "B",
+"fields": [
+  {"name": "id", "type":  "string" }
+  {"record": {  "namespace": "com.avro",
+                "type": "record",
+                "name": "B",
+                "fields": [
+                          {"name": "id", "type":  "string" }
+                          {"record": com.avro.A}
+                          ]
+                          }
+            }
+  ]
+ }
 ```
 
 
