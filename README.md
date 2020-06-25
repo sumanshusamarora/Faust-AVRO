@@ -146,7 +146,7 @@ bytes_serialized = faust2avro.serialize_to_bytes(result_dict)
 json_serialized = faust2avro.serialize_to_json(result_dict)
 ```
 
-To read a avro byte message and convert to faust record, the following code can be used provided you already have the schema shared by sender which ideally the sender should. If schema is not available then the above code can be used to generate one but please ensure the Faust record has same format as the sender application - 
+To read a avro byte message and convert to faust record, the following code can be used provided you already have the schema shared by sender which ideally the sender should. If schema is not available then the above code can be used to generate one but please ensure the Faust record has same format as the sender's AVRO schema - 
 ```
 #Assuming the schema has been shared by the sender
 with open(f'{PATH TO SCHEMA DIRECTORY}/email.avsc', 'rb') as schema_file:
