@@ -43,6 +43,7 @@ avro_schema2, email2 = email2.avro_equivalent()
 
 #Regardless of values provided into the record instance the avro schema should be same so schema once generated can be shared with someone who is consuimg the message
 avro_schema1 == avro_schema2
+True
 
 #To use the same schema and then generate byte or json avro message, below code can be refernced
 avro_schema, email = email1.avro_equivalent()
