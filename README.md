@@ -38,8 +38,8 @@ Hence, we created the schema the non-ideal way but it is just a different repres
                 "fields": [
                           {"name": "id", "type":  "string" }
                           ]
-                          }
-            }
+             }
+  }
   ]
  }
 ```
