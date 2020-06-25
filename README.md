@@ -3,9 +3,8 @@ The repo consists code to automatically generate avro schema from Faust records.
 
 The avro schema generated through this implementation is tried and tested on Java-Python integration and we realized that having multiple schemas in a list in case of nested avro schema and adding only reference to child schema in the parent schema does not work when message is read at Java end. To explain further assume - 
 
+Ideal way of creating avro schema *BUT java could not read the message using this schema* - 
 ```
-Ideal way of creating avro schema *BUT Java could not read the message using this schema* - 
-
 [
 schemaA = {"namespace": "com.avro",
           "type": "record",
@@ -23,9 +22,10 @@ schemaB = {"namespace": "com.avro",
             ]
            }
 ]
+```
 
 Hence, we created the schema like this and it works as expected  - 
-
+```
 schemaB = {"namespace": "com.avro",
           "type": "record",
           "name": "B",
